@@ -8,11 +8,19 @@ app.use(cors());
 
 // Routes
 app.get('/getConfig', async function (req, res) {
-  const { clintId } = req.query;
-  /**
-   *
-   * We' ll add more code here later
-   */
+  const { clientId } = req.query;
+  // Receive the clientId from out client-side app
+
+  //Find the config for the particular client Id
+  const clientConfig = Config.getClientConfig(clientId);
+
+  if (!clientConfig) {
+    // Return an error if it's not found
+    res.status(404).send({ error: `Config not found for this clientId: ${clientId}` });
+  }
+
+  // Send the config if found
+  res.send(clientConfig);
 });
 
 // Run server
