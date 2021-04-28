@@ -1,22 +1,31 @@
+import React, { useState, useEffect } from 'react';
+
 import logo from './logo.svg';
 import './App.css';
+import { getConfig } from './services/config.service';
 
 function App() {
+  const [config, setConfig] = useState({ loading: true, data: {} });
+  const { loading, data } = config;
+
+  useEffect(() => {
+    async function getConfigAsync() {
+      const { data } = await getConfig();
+      setConfig({ data });
+    }
+
+    getConfigAsync();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className='App'>
+      <header className='App-header'>
+        <img src={logo} className='App-logo' alt='logo' />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          {loading && 'Getting config from server...'}
+          {data.error && 'Error getting config from server'}
+          {data.name && `The client is ${data.name}`}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );

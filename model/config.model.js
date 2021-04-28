@@ -1,7 +1,7 @@
 const configs = require('../db/configs.json');
 
 function getClientConfig(clientId) {
-  return configs.find((conffig) => configs.clientId == clientId);
+  return configs.find((config) => config.clientId == clientId);
 }
 
 module.exports = {
